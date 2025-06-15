@@ -27,9 +27,6 @@ export const createUser = async (req: Request, res: Response) => {
         email,
         password,
       },
-      include: {
-        posts: true,
-      },
     });
 
     return res
@@ -43,7 +40,20 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await db.user.findMany();
+    const users = await db.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        posts: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
     return res.status(200).json(users);
   } catch (error) {
     console.error('Erro ao buscar usuários:', error);

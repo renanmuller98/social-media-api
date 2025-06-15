@@ -1,13 +1,14 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import useRoutes from './routes/userRoutes';
+import userRoutes from './routes/userRoutes';
+import postRoutes from './routes/postRoutes';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-app.use('/', useRoutes);
+app.use('/', userRoutes, postRoutes);
 
 const PORT = process.env.PORT;
 
